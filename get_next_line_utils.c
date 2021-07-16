@@ -45,13 +45,10 @@ char	*ft_strjoin(char *save, char *buffer)
 	char	*new_save;
 	int		i;
 	int		j;
-	int		len_tot;
 
 	if (buffer == 0)
 		return (save);
-	len_tot = ft_len(save) + ft_len(buffer) + 1;
-	printf("test len_tot : [%d]\n", len_tot);
-	new_save = malloc(sizeof(char) * len_tot);
+	new_save = malloc(sizeof(char) * (ft_len(save) + ft_len(buffer) + 1));
 	if (!new_save)
 		return (NULL);
 	i = 0;
@@ -67,5 +64,6 @@ char	*ft_strjoin(char *save, char *buffer)
 		j++;
 	}
 	new_save[i + j] = '\0';
+	free(save);
 	return (new_save);
 }

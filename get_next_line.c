@@ -5,21 +5,27 @@ char	*get_new_save(char *save)
 	int		i;
 	int		j;
 	char	*tmp_save;
+	char	*tmp;
 
 	i = recherch_return_line(save);
-	tmp_save = save;
-	free(save);
-	save = malloc(sizeof(char) * (i + 1));
-	if (!save)
+	if (save[i] == '\0')
+	{
+		free(save);
+		return (NULL);
+	}
+	tmp = save;
+	tmp_save = malloc(sizeof(char) * (ft_len(save) - i + 1));
+	if (!tmp_save)
 		return (NULL);
 	j = 0;
-	while (tmp_save[i + j])
+	while (tmp[i + j])
 	{
-		save[j] = tmp_save[i + j];
+		tmp_save[j] = tmp[i + j];
 		j++;
 	}
-	save[j] = '\0';
-	return (save);
+	tmp_save[j] = '\0';
+	free(save);
+	return (tmp_save);
 }
 
 char	*get_line(char *save)
@@ -30,7 +36,6 @@ char	*get_line(char *save)
 	if (!save || save[0] == 0)
 		return (NULL);
 	i = recherch_return_line(save);
-	printf("test i : [%d]\n", i);
 	line = malloc(sizeof(char) * (i + 1));
 	if (!line)
 		return (NULL);
@@ -50,13 +55,15 @@ char	*get_line(char *save)
 	return (line);
 }
 
-char	*final_test(char *line, int check)
+char	*final_test(char *line, int check, char *save)
 {
-	printf("ceci est line au test final : [%s]\n", line);
 	if (check == 0 && line == NULL)
+	{
+		free(save);
+		save = NULL;
 		return (NULL);
-	else
-		return (line);
+	}
+	return (line);
 }
 
 char	*get_next_line(int fd)
@@ -71,7 +78,6 @@ char	*get_next_line(int fd)
 	check = 1;
 	if (!save)
 		save = NULL;
-	printf("ceci est save en entrant : [%s]\n", save);
 	while (!check_return_line(save) && check)
 	{
 		check = read(fd, buffer, BUFFER_SIZE);
@@ -83,10 +89,8 @@ char	*get_next_line(int fd)
 		}
 		buffer[check] = '\0';
 		save = ft_strjoin(save, buffer);
-		printf("test\n");
 	}
 	line = get_line(save);
-	printf("test2\n");
 	save = get_new_save(save);
-	return (final_test(line, check));
+	return (final_test(line, check, save));
 }
