@@ -12,5 +12,6 @@ char	*ft_memcpy(char *dest, char *src);
 int		check_return_line(char *save);
 char	*ft_strndup(const char *src, int n);
 int		recherch_return_line(char *s);
+void	ft_strcpy(char *dest, char *src);
 
 #endif

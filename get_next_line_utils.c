@@ -67,3 +67,19 @@ char	*ft_strjoin(char *save, char *buffer)
 	free(save);
 	return (new_save);
 }
+
+void	ft_strcpy(char *dest, char *src)
+{
+	int	i;
+
+	dest = malloc(sizeof(char) * (ft_len(src) + 1));
+	if (!dest)
+		return;
+	i = 0;
+	while (src[i])
+	{
+		dest[i] = src[i];
+		i++;
+	}
+	dest[i] = '\0';
+}
